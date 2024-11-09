@@ -13,7 +13,8 @@ LIBS := -L$(LIBS_PATH) -lc -lfxcg -lgcc
 INCLUDES := -I$(INCLUDES_PATH) -Icgutil
 
 TARGET_FLAGS := -mb -m4a-nofpu -mhitachi -nostdlib
-CFLAGS := -Os -Wall $(TARGET_FLAGS) $(INCLUDES) -ffunction-sections -fdata-sections -flto
+DEP_FLAGS := -MMD -MP
+CFLAGS := -Os -Wall $(TARGET_FLAGS) $(INCLUDES) $(DEP_FLAGS) -ffunction-sections -fdata-sections -flto
 LDFLAGS := -T$(LINKER_SCRIPT) $(TARGET_FLAGS) $(LIBS) -flto -Wl,-static -Wl,-gc-sections
 
 APP_NAME := beep
@@ -36,3 +37,5 @@ $(TARGET_NAME).g3a: $(TARGET_NAME).bin
 $(TARGET_NAME).bin: $(OBJECTS)
 	@mkdir -p $(dir $@)
 	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
+
+include $(wildcard src/*.d)
