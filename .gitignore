@@ -1,0 +1,7 @@
+.idea/*
+!.idea/runConfigurations
+
+*.o
+*.d
+*.bin
+*.g3a
